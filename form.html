@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Form</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-image: url('https://wallpaperbat.com/img/26357-pink-mountains-wallpaper-top-free-pink-mountains-background.jpg');
+            background-position: center;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .form_container {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .form_container h1 {
+            text-align: center;
+            color: #fd4f95;
+        }
+
+        .form_container label,
+        .form_container input,
+        .form_container button {
+            color: #fd4f95;
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .form_container input {
+            background: none;
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            border-bottom: 2px solid #fd4f95;
+        }
+
+        .form_container button {
+            padding: 10px;
+            background-color: #fd4f95;
+            border-radius: 11px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form_container button:hover {
+            background-color: #45a049;
+        }
+
+        .form_container p {
+            color: red;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container p-3">
+        <div class="form_container">
+            <h1>A1 Academy Login Page</h1>
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Enter your name" list="nam" oninput="fillPhone()" required>
+            <datalist id="nam">
+                <option value="pavithran">pavithran</option>
+                <option value="yazhir">yazhir</option>
+                <option value="shalim">shalim</option>
+                <option value="suhail">suhail</option>
+                <option value="vinothan">vinothan</option>
+                <option value="rashid">rashid</option>
+                <option value="thasthick">thasthick</option>
+                <option value="sameer mustafa">sameer mustafa</option>
+                <option value="sameer">sameer</option>
+                <option value="shakil">shakil</option>
+                <option value="tamil mohamed">tamil mohamed</option>
+                <option value="azhar">azhar</option>
+            </datalist>
+
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="number" placeholder="Enter your Phone Number" readonly required>
+
+            <label for="aadhaar">Password</label>
+            <input id="aadhaar" type="number" placeholder="Enter first four digits of your phone number" required>
+
+            <button onclick="getOtp()">Get OTP</button>
+
+            <label for="otp">OTP</label>
+            <input id="otp" type="number" placeholder="Enter your OTP" required>
+
+            <button onclick="otpValue()">Let Go</button>
+            <p id="errors"></p>
+        </div>
+    </div>
+
+    <script>
+        const phoneNumbers = {
+            'pavithran': '7358197869', 'yazhir': '6379696850', 'shalim': '7373318217', 'rashid': '7010620828',
+            'vinothan': '8838729226', 'suhail': '7092985477', 'thasthick': '9360837374', 'sameer mustafa': '7871866467',
+            'sameer': '9698279007', 'shakil': '9629508334', 'tamil mohamed': '8754196545', 'azhar': '9786111161'
+        };
+
+        function fillPhone() {
+            const name = document.getElementById('name').value;
+            const phone = phoneNumbers[name] || '';
+            document.getElementById('phone').value = phone;
+            document.getElementById('aadhaar').value = phone.substring(0, 4);
+        }
+
+        let generatedOtp;
+
+        function getOtp() {
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const aadhaar = document.getElementById("aadhaar").value;
+            const errors = document.getElementById("errors");
+
+            if (phoneNumbers[name] && phone.startsWith(aadhaar)) {
+                generatedOtp = Math.floor(1000 + Math.random() * 9000); // Generate 4-digit OTP
+                alert("Your OTP is: " + generatedOtp);
+                document.getElementById("otp").value = generatedOtp;
+                errors.textContent = "";
+            } else {
+                errors.textContent = "Entered wrong value";
+            }
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("aadhaar").value = "";
+        }
+
+        function otpValue() {
+            const otp = document.getElementById("otp").value;
+            const errors = document.getElementById("errors");
+
+            if (otp == generatedOtp) {
+                window.location.href = "A1.html";
+            } else {
+                errors.textContent = "Invalid OTP";
+            }
+            clearInputs();
+        }
+
+        function clearInputs() {
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("aadhaar").value = "";
+            document.getElementById("otp").value = "";
+        }
+    </script>
+</body>
+
+</html>
